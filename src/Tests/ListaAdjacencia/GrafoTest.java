@@ -81,4 +81,24 @@ public class GrafoTest {
 
         assertTrue(listaEsperadaVerticesAdjacentesE.equals(listaVerticesAdjacentesE));
     }
+
+    @Test
+    public void testGrafoCaso3() {
+        Vertice2 vA = new Vertice2('A');
+        Vertice2 vB = new Vertice2('B');
+        Vertice2 vC = new Vertice2('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+        g.adicionarAresta(vA, vC);
+
+        g.removerAresta(vA, vB);
+
+        Item listaEsperadaVerticesAdjacentesA = new Item(vA);
+        listaEsperadaVerticesAdjacentesA.adicionarVertice(vC);
+
+        Item listaVerticesAdjacentesA = g.buscaListaItem(vA);
+
+        assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
+    }
 }

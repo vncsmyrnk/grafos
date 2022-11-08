@@ -22,7 +22,7 @@ public class Item {
     }
 
     public void removerVertice(Vertice2 v) {
-        this.verticesAdjacentes.add(v);
+        this.verticesAdjacentes.remove(v);
     }
 
     public boolean isItemDoVertice(Vertice2 v) {
