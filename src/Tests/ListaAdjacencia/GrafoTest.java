@@ -114,6 +114,14 @@ public class GrafoTest {
         g.adicionarAresta(vA, vC);
     }
 
+    @Test(expected = VerticeNaoEncontradoException.class)
+    public void testCriarGrafoRemoverVerticeInexistente() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Grafo g = new Grafo(vA);
+        g.removerVertice(vB);
+    }
+
     @Test(expected = VerticeJaExisteException.class)
     public void testCriarGrafoComVerticeDuplicado() throws Exception {
         Vertice vA = new Vertice('A');
