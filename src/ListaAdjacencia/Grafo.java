@@ -2,6 +2,8 @@ package ListaAdjacencia;
 
 import java.util.LinkedList;
 
+import Exception.VerticeJaExisteException;
+import Exception.VerticeNaoEncontradoException;
 import Util.*;
 
 /**
@@ -9,44 +11,125 @@ import Util.*;
  */
 
 public class Grafo {
-    private LinkedList<Item> itens;
+    private LinkedList<Adjacentes> adjacentes;
 
     public Grafo() {
-        this.itens = new LinkedList<>();
+        this.adjacentes = new LinkedList<>();
     }
 
-    public Grafo(Vertice2... vertices) {
-        this.itens = new LinkedList<>();
-        for (Vertice2 vertice : vertices) {
-            this.itens.add(new Item(vertice));
+    public Grafo(Vertice... vertices) throws VerticeJaExisteException {
+        this.adjacentes = new LinkedList<>();
+        for (Vertice vertice : vertices) {
+            this.criaExcecaoSeVerticeJaExistir(vertice);
+            this.adjacentes.add(new Adjacentes(vertice));
         }
     }
 
-    public void adicionarVertice(Vertice2 v) {
-        Item novoItem = new Item(v);
-        this.itens.add(novoItem);
+    /**
+     * Adiciona um vertice ao grafo
+     * 
+     * @param Vertice v
+     * @throws VerticeJaExisteException
+     */
+    public void adicionarVertice(Vertice v) throws VerticeJaExisteException {
+        this.criaExcecaoSeVerticeJaExistir(v);
+        Adjacentes novoItem = new Adjacentes(v);
+        this.adjacentes.add(novoItem);
     }
 
-    public void removerVertice(Vertice2 v) {
-        Item itemVertice = this.buscaListaItem(v);
-        this.itens.remove(itemVertice);
+    /**
+     * Remove um vertice do grafo
+     * 
+     * @param Vertice v
+     * @throws VerticeNaoEncontradoException
+     */
+    public void removerVertice(Vertice v) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(v);
+        Adjacentes verticesAdjacentes = this.buscaListaItem(v);
+        this.adjacentes.remove(verticesAdjacentes);
     }
 
-    public void adicionarAresta(Vertice2 divergente, Vertice2 covergente) {
-        Item itemVertice = this.buscaListaItem(divergente);
-        itemVertice.adicionarVertice(covergente);
+    /**
+     * Adiciona uma aresta entre um vertice convergente e um divergente considerando
+     * que o divergente existe no grafo
+     * 
+     * @param Vertice divergente
+     * @param Vertice covergente
+     * @throws VerticeNaoEncontradoException
+     */
+    public void adicionarAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(divergente);
+        this.criaExcecaoSeVerticeNaoExistir(covergente);
+        Adjacentes verticesAdjacentes = this.buscaListaItem(divergente);
+        verticesAdjacentes.adicionarVertice(covergente);
     }
 
-    public void removerAresta(Vertice2 divergente, Vertice2 covergente) {
-        Item itemVertice = this.buscaListaItem(divergente);
-        itemVertice.removerVertice(covergente);
+    /**
+     * Remove uma aresta entre um vertice convergente e um divergente considerando
+     * que o divergente existe no grafo
+     * 
+     * @param Vertice divergente
+     * @param Vertice covergente
+     * @throws VerticeNaoEncontradoException
+     */
+    public void removerAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(divergente);
+        this.criaExcecaoSeVerticeNaoExistir(covergente);
+        Adjacentes verticesAdjacentes = this.buscaListaItem(divergente);
+        verticesAdjacentes.removerVertice(covergente);
     }
 
-    public Item buscaListaItem(Vertice2 v) {
-        return this.itens
+    /**
+     * Busca a lista de adjacencia de um vertice do grafo. Caso nao exista nulo e
+     * retornado
+     * 
+     * @param v
+     * @return Vertice | null
+     */
+    public Adjacentes buscaListaItem(Vertice v) {
+        return this.adjacentes
                 .stream()
                 .filter((item) -> item.isItemDoVertice(v))
                 .findAny()
                 .orElse(null);
+    }
+
+    /**
+     * Confirma se um determinado vertice existe no grafo
+     * 
+     * @param v
+     * @return
+     */
+    public boolean verticeExists(Vertice v) {
+        return this.buscaListaItem(v) != null;
+    }
+
+    /**
+     * Levanta uma excecao se o vertice em questao nao existir no grafo
+     * 
+     * @param v
+     * @throws VerticeNaoEncontradoException
+     */
+    public void criaExcecaoSeVerticeNaoExistir(Vertice v) throws VerticeNaoEncontradoException {
+        for (Adjacentes adjacentes : this.adjacentes) {
+            if (adjacentes.getVertice().equals(v)) {
+                return;
+            }
+        }
+        throw new VerticeNaoEncontradoException();
+    }
+
+    /**
+     * Levanta uma excecao se o vertice em questao nao existir no grafo
+     * 
+     * @param v
+     * @throws VerticeJaExisteException
+     */
+    public void criaExcecaoSeVerticeJaExistir(Vertice v) throws VerticeJaExisteException {
+        for (Adjacentes adjacentes : this.adjacentes) {
+            if (adjacentes.getVertice().equals(v)) {
+                throw new VerticeJaExisteException();
+            }
+        }
     }
 }

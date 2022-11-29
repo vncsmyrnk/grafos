@@ -1,34 +1,52 @@
 package Util;
 
-public class Vertice<TIPO> {
-    // private TIPO dado;
-    // private LinkedList<TIPO> arestasEntrada;
-    // private LinkedList<TIPO> arestasSaida;
+/**
+ * Representação de um Vertice
+ */
 
-    // public Vertice(TIPO valor) {
-    // this.dado = valor;
-    // this.arestasEntrada = new LinkedList<TIPO>();
-    // this.arestasSaida = new LinkedList<TIPO>();
-    // }
+public class Vertice {
+    private char rotulo;
+    private int peso;
 
-    // public TIPO getDado() {
-    // return dado;
-    // }
+    public Vertice(char rotulo) {
+        this.rotulo = rotulo;
+        this.peso = 1;
+    }
 
-    // public void setDado(Tipo dado) {
-    // this.dado = dado;
-    // }
+    public Vertice(char rotulo, int peso) {
+        this.rotulo = rotulo;
+        this.peso = peso;
+    }
 
-    // public void adicionarArestaEntrada(aresta<TIPO> aresta) {
+    /**
+     * Retorna o rotulo
+     * 
+     * @return char
+     */
+    public char getRotulo() {
+        return this.rotulo;
+    }
 
-    // this.arestasEntrada.add(aresta);
+    /**
+     * Retorna o peso
+     * 
+     * @return
+     */
+    public int getPeso() {
+        return this.peso;
+    }
 
-    // }
-
-    // public void adicionarArestaSaida(aresta<TIPO> aresta) {
-
-    // this.arestasSaida.add(arestas);
-
-    // }
-
+    /**
+     * Sobrescreve a comaparacao de iguais realizando a comparacao entre os rotulos
+     * 
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        Vertice v = (Vertice) o;
+        if (v == null) {
+            return false;
+        }
+        return this.rotulo == v.getRotulo();
+    }
 }
