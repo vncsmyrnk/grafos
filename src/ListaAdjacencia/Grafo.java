@@ -11,17 +11,17 @@ import Util.*;
  */
 
 public class Grafo {
-    private LinkedList<Adjacentes> adjacentes;
+    private LinkedList<Adjacentes> listaAdjacentes;
 
     public Grafo() {
-        this.adjacentes = new LinkedList<>();
+        this.listaAdjacentes = new LinkedList<>();
     }
 
     public Grafo(Vertice... vertices) throws VerticeJaExisteException {
-        this.adjacentes = new LinkedList<>();
+        this.listaAdjacentes = new LinkedList<>();
         for (Vertice vertice : vertices) {
             this.criaExcecaoSeVerticeJaExistir(vertice);
-            this.adjacentes.add(new Adjacentes(vertice));
+            this.listaAdjacentes.add(new Adjacentes(vertice));
         }
     }
 
@@ -34,7 +34,7 @@ public class Grafo {
     public void adicionarVertice(Vertice v) throws VerticeJaExisteException {
         this.criaExcecaoSeVerticeJaExistir(v);
         Adjacentes novoItem = new Adjacentes(v);
-        this.adjacentes.add(novoItem);
+        this.listaAdjacentes.add(novoItem);
     }
 
     /**
@@ -45,8 +45,8 @@ public class Grafo {
      */
     public void removerVertice(Vertice v) throws VerticeNaoEncontradoException {
         this.criaExcecaoSeVerticeNaoExistir(v);
-        Adjacentes verticesAdjacentes = this.buscaListaItem(v);
-        this.adjacentes.remove(verticesAdjacentes);
+        Adjacentes verticesAdjacentes = this.buscaAdjacentes(v);
+        this.listaAdjacentes.remove(verticesAdjacentes);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Grafo {
     public void adicionarAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
         this.criaExcecaoSeVerticeNaoExistir(divergente);
         this.criaExcecaoSeVerticeNaoExistir(covergente);
-        Adjacentes verticesAdjacentes = this.buscaListaItem(divergente);
+        Adjacentes verticesAdjacentes = this.buscaAdjacentes(divergente);
         verticesAdjacentes.adicionarVertice(covergente);
     }
 
@@ -75,7 +75,7 @@ public class Grafo {
     public void removerAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
         this.criaExcecaoSeVerticeNaoExistir(divergente);
         this.criaExcecaoSeVerticeNaoExistir(covergente);
-        Adjacentes verticesAdjacentes = this.buscaListaItem(divergente);
+        Adjacentes verticesAdjacentes = this.buscaAdjacentes(divergente);
         verticesAdjacentes.removerVertice(covergente);
     }
 
@@ -86,22 +86,76 @@ public class Grafo {
      * @param v
      * @return Vertice | null
      */
-    public Adjacentes buscaListaItem(Vertice v) {
-        return this.adjacentes
+    public Adjacentes buscaAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
+        return this.listaAdjacentes
                 .stream()
-                .filter((item) -> item.isItemDoVertice(v))
+                .filter((item) -> item.ehDoVertice(v))
                 .findAny()
-                .orElse(null);
+                .orElseThrow(VerticeNaoEncontradoException::new);
     }
 
     /**
-     * Confirma se um determinado vertice existe no grafo
+     * Checa se dois vertices sao adjacentes
      * 
-     * @param v
+     * @param v1
+     * @param v2
+     * @return boolean
+     */
+    public boolean verticesSaoAdjacentes(Vertice v1, Vertice v2) {
+        try {
+            this.criaExcecaoSeVerticeNaoExistir(v1);
+            this.criaExcecaoSeVerticeNaoExistir(v2);
+
+            Adjacentes adjacentesAV1 = this.buscaAdjacentes(v1);
+            return adjacentesAV1.existeAdjacencia(v2);
+        } catch (VerticeNaoEncontradoException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checa se duas arestas sao adjacentes
+     * 
+     * @param inicioAresta1
+     * @param fimAresta1
+     * @param inicioAresta2
+     * @param fimAresta2
+     * @return boolean
+     * @throws VerticeNaoEncontradoException
+     */
+    public boolean arestasSaoAdjacentes(Vertice inicioAresta1, Vertice fimAresta1, Vertice inicioAresta2,
+            Vertice fimAresta2) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(inicioAresta1);
+        this.criaExcecaoSeVerticeNaoExistir(fimAresta1);
+        this.criaExcecaoSeVerticeNaoExistir(inicioAresta2);
+        this.criaExcecaoSeVerticeNaoExistir(fimAresta2);
+
+        return inicioAresta1.equals(inicioAresta2) || fimAresta1.equals(inicioAresta2)
+                || inicioAresta2.equals(fimAresta1) || fimAresta2.equals(inicioAresta1);
+    }
+
+    /**
+     * Checa se existe uma aresta entre os dois vertices
+     * 
+     * @param v1
+     * @param v2
      * @return
      */
-    public boolean verticeExists(Vertice v) {
-        return this.buscaListaItem(v) != null;
+    public boolean existeAresta(Vertice v1, Vertice v2) {
+        try {
+            this.criaExcecaoSeVerticeNaoExistir(v1);
+            this.criaExcecaoSeVerticeNaoExistir(v2);
+
+            Adjacentes adjacentesAV1 = this.buscaAdjacentes(v1);
+            if (adjacentesAV1.existeAdjacencia(v2)) {
+                return true;
+            }
+
+            Adjacentes adjacentesAV2 = this.buscaAdjacentes(v2);
+            return adjacentesAV2.existeAdjacencia(v1);
+        } catch (VerticeNaoEncontradoException e) {
+            return false;
+        }
     }
 
     /**
@@ -111,7 +165,7 @@ public class Grafo {
      * @throws VerticeNaoEncontradoException
      */
     public void criaExcecaoSeVerticeNaoExistir(Vertice v) throws VerticeNaoEncontradoException {
-        for (Adjacentes adjacentes : this.adjacentes) {
+        for (Adjacentes adjacentes : this.listaAdjacentes) {
             if (adjacentes.getVertice().equals(v)) {
                 return;
             }
@@ -126,7 +180,7 @@ public class Grafo {
      * @throws VerticeJaExisteException
      */
     public void criaExcecaoSeVerticeJaExistir(Vertice v) throws VerticeJaExisteException {
-        for (Adjacentes adjacentes : this.adjacentes) {
+        for (Adjacentes adjacentes : this.listaAdjacentes) {
             if (adjacentes.getVertice().equals(v)) {
                 throw new VerticeJaExisteException();
             }

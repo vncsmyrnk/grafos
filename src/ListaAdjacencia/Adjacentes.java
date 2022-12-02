@@ -41,7 +41,7 @@ public class Adjacentes {
      * @param v
      * @return boolean
      */
-    public boolean isItemDoVertice(Vertice v) {
+    public boolean ehDoVertice(Vertice v) {
         return this.vertice.equals(v);
     }
 
@@ -61,6 +61,18 @@ public class Adjacentes {
      */
     public Vertice getVertice() {
         return this.vertice;
+    }
+
+    /**
+     * Chace se um determinado vertice pertence a lista de adjacencia
+     * 
+     * @param v
+     * @return boolean
+     */
+    public boolean existeAdjacencia(Vertice v) {
+        return this.verticesAdjacentes
+                .stream()
+                .anyMatch((vertice) -> vertice.equals(v));
     }
 
     /**

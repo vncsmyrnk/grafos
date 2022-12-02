@@ -1,5 +1,6 @@
 package Tests.ListaAdjacencia;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class GrafoTest {
         Adjacentes listaEsperadaVerticesAdjacentesA = new Adjacentes(vA);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vB);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaListaItem(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
@@ -51,7 +52,7 @@ public class GrafoTest {
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vB);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vC);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaListaItem(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
 
@@ -59,7 +60,7 @@ public class GrafoTest {
         listaEsperadaVerticesAdjacentesB.adicionarVertice(vD);
         listaEsperadaVerticesAdjacentesB.adicionarVertice(vE);
 
-        Adjacentes listaVerticesAdjacentesB = g.buscaListaItem(vB);
+        Adjacentes listaVerticesAdjacentesB = g.buscaAdjacentes(vB);
 
         assertTrue(listaEsperadaVerticesAdjacentesB.equals(listaVerticesAdjacentesB));
 
@@ -67,19 +68,19 @@ public class GrafoTest {
         listaEsperadaVerticesAdjacentesC.adicionarVertice(vB);
         listaEsperadaVerticesAdjacentesC.adicionarVertice(vD);
 
-        Adjacentes listaVerticesAdjacentesC = g.buscaListaItem(vC);
+        Adjacentes listaVerticesAdjacentesC = g.buscaAdjacentes(vC);
 
         assertTrue(listaEsperadaVerticesAdjacentesC.equals(listaVerticesAdjacentesC));
 
         Adjacentes listaEsperadaVerticesAdjacentesD = new Adjacentes(vD);
         listaEsperadaVerticesAdjacentesD.adicionarVertice(vE);
 
-        Adjacentes listaVerticesAdjacentesD = g.buscaListaItem(vD);
+        Adjacentes listaVerticesAdjacentesD = g.buscaAdjacentes(vD);
 
         assertTrue(listaEsperadaVerticesAdjacentesD.equals(listaVerticesAdjacentesD));
 
         Adjacentes listaEsperadaVerticesAdjacentesE = new Adjacentes(vE);
-        Adjacentes listaVerticesAdjacentesE = g.buscaListaItem(vE);
+        Adjacentes listaVerticesAdjacentesE = g.buscaAdjacentes(vE);
 
         assertTrue(listaEsperadaVerticesAdjacentesE.equals(listaVerticesAdjacentesE));
     }
@@ -99,7 +100,7 @@ public class GrafoTest {
         Adjacentes listaEsperadaVerticesAdjacentesA = new Adjacentes(vA);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vC);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaListaItem(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
@@ -119,6 +120,7 @@ public class GrafoTest {
         Vertice vA = new Vertice('A');
         Vertice vB = new Vertice('B');
         Grafo g = new Grafo(vA);
+
         g.removerVertice(vB);
     }
 
@@ -134,5 +136,80 @@ public class GrafoTest {
         Grafo g = new Grafo(vA);
 
         g.adicionarVertice(vA);
+    }
+
+    @Test
+    public void testGrafoVerticesAdjacentes() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+
+        assertTrue(g.verticesSaoAdjacentes(vA, vB));
+    }
+
+    @Test
+    public void testGrafoVerticesNaoAdjacentes() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+
+        assertFalse(g.verticesSaoAdjacentes(vA, vC));
+    }
+
+    @Test
+    public void testGrafoArestasAdjacentes() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+        g.adicionarAresta(vA, vC);
+
+        assertTrue(g.arestasSaoAdjacentes(vA, vB, vA, vC));
+    }
+
+    @Test
+    public void testGrafoArestasNaoAdjacentes() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Vertice vD = new Vertice('D');
+        Grafo g = new Grafo(vA, vB, vC, vD);
+
+        g.adicionarAresta(vA, vB);
+        g.adicionarAresta(vC, vD);
+
+        assertFalse(g.arestasSaoAdjacentes(vA, vB, vC, vD));
+    }
+
+    @Test
+    public void testGrafoExisteAresta() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+
+        assertTrue(g.existeAresta(vA, vB));
+    }
+
+    @Test
+    public void testGrafoNaoExisteAresta() throws Exception {
+        Vertice vA = new Vertice('A');
+        Vertice vB = new Vertice('B');
+        Vertice vC = new Vertice('C');
+        Grafo g = new Grafo(vA, vB, vC);
+
+        g.adicionarAresta(vA, vB);
+
+        assertFalse(g.existeAresta(vA, vC));
     }
 }
