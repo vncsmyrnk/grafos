@@ -1,9 +1,211 @@
 package MatrizAdjacencia;
 
+import java.util.LinkedList;
+
+import Exception.VerticeNaoEncontradoException;
+
 /**
  * Representação de grafos utilizando Matriz de Adjacência
  */
 
-public class Grafo {
+public class Grafo implements Util.Grafo {
+    private LinkedList<Vertice> vertices;
+    private int[][] matrizAdjacencia;
 
+    public Grafo(Vertice... vertices) {
+        this.vertices = new LinkedList<>();
+        for (Vertice vertice : vertices) {
+            this.vertices.add(new Vertice(vertice.getRotulo(), vertice.getPeso(), this.vertices.size()));
+        }
+        this.matrizAdjacencia = new int[this.vertices.size()][this.vertices.size()];
+        this.inicializaElementosMatrizAdjacencia();
+    }
+
+    /**
+     * Adiciona uma aresta entre um vertice convergente e um divergente considerando
+     * que o divergente existe no grafo
+     * 
+     * @param v1
+     * @param v2
+     * @throws VerticeNaoEncontradoException
+     */
+    public void adicionarAresta(Util.Vertice v1, Util.Vertice v2)
+            throws VerticeNaoEncontradoException {
+        Vertice vm1 = this.buscaVertice(v1);
+        Vertice vm2 = this.buscaVertice(v2);
+        this.matrizAdjacencia[vm1.getPosicaoMatriz()][vm2.getPosicaoMatriz()] = 1;
+        this.matrizAdjacencia[vm2.getPosicaoMatriz()][vm1.getPosicaoMatriz()] = 1;
+    }
+
+    /**
+     * Remove uma aresta entre um vertice convergente e um divergente considerando
+     * que o divergente existe no grafo
+     * 
+     * @param v1
+     * @param v2
+     * @throws VerticeNaoEncontradoException
+     */
+    public void removerAresta(Util.Vertice v1, Util.Vertice v2) throws VerticeNaoEncontradoException {
+        Vertice vm1 = this.buscaVertice(v1);
+        Vertice vm2 = this.buscaVertice(v2);
+        this.matrizAdjacencia[vm1.getPosicaoMatriz()][vm2.getPosicaoMatriz()] = 0;
+        this.matrizAdjacencia[vm2.getPosicaoMatriz()][vm1.getPosicaoMatriz()] = 0;
+    }
+
+    /**
+     * Checa se dois vertices sao adjacentes
+     * 
+     * @param v1
+     * @param v2
+     * @return boolean
+     */
+    public boolean verticesSaoAdjacentes(Util.Vertice v1, Util.Vertice v2) throws VerticeNaoEncontradoException {
+        Vertice vm1 = this.buscaVertice(v1);
+        Vertice vm2 = this.buscaVertice(v2);
+        return this.matrizAdjacencia[vm1.getPosicaoMatriz()][vm2.getPosicaoMatriz()] == 1;
+    }
+
+    /**
+     * Checa se duas arestas sao adjacentes
+     * 
+     * @param vA1
+     * @param vA2
+     * @param vB1
+     * @param vB2
+     * @return boolean
+     * @throws VerticeNaoEncontradoException
+     */
+    public boolean arestasSaoAdjacentes(Util.Vertice vA1, Util.Vertice vA2, Util.Vertice vB1,
+            Util.Vertice vB2) throws VerticeNaoEncontradoException {
+        Vertice vmA1 = this.buscaVertice(vA1);
+        Vertice vmA2 = this.buscaVertice(vA2);
+        Vertice vmB1 = this.buscaVertice(vB1);
+        Vertice vmB2 = this.buscaVertice(vB2);
+
+        return vmA1.equals(vmB1) || vmA2.equals(vmB1)
+                || vmB1.equals(vmA2) || vmB2.equals(vmA1);
+    }
+
+    /**
+     * Checa se existe uma aresta entre os dois vertices
+     * 
+     * @param v1
+     * @param v2
+     * @return boolean
+     */
+    public boolean existeAresta(Util.Vertice v1, Util.Vertice v2) {
+        try {
+            if (this.verticesSaoAdjacentes(v1, v2)) {
+                return true;
+            }
+
+            return this.verticesSaoAdjacentes(v2, v1);
+        } catch (VerticeNaoEncontradoException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Calcula a quantidade de vertices que existem no grafo
+     * 
+     * @return int
+     */
+    public int quantidadeVertices() {
+        return this.vertices.size();
+    }
+
+    /**
+     * Retorna a quantidade armazenada de arestas
+     * 
+     * @return int
+     */
+    public int quantidadeArestas() {
+        int quantidadeRelacoes = 0;
+        for (int i = 0; i < this.matrizAdjacencia.length; i++) {
+            for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
+                if (this.matrizAdjacencia[i][j] == 1) {
+                    quantidadeRelacoes++;
+                }
+            }
+        }
+        return quantidadeRelacoes / 2;
+    }
+
+    /**
+     * Verifica se o grafo eh nulo. Um grafo nulo nao possui arestas
+     * 
+     * @return boolean
+     */
+    public boolean ehNulo() {
+        for (int i = 0; i < this.matrizAdjacencia.length; i++) {
+            for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
+                if (this.matrizAdjacencia[i][j] == 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Verifica se o grafo eh completo. Em um grafo completo um vertice esta
+     * conectado a todos os demais
+     * 
+     * @return boolean
+     */
+    public boolean ehCompleto() {
+        for (int i = 0; i < this.matrizAdjacencia.length; i++) {
+            for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
+                if (i != j && this.matrizAdjacencia[i][j] == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Busca dentre os vertices do grafo uma correspondencia com um vertice original
+     * 
+     * @param v
+     * @return Vertice
+     * @throws VerticeNaoEncontradoException
+     */
+    public Vertice buscaVertice(Util.Vertice v) throws VerticeNaoEncontradoException {
+        return this.vertices
+                .stream()
+                .filter((vertice) -> vertice.equals(v))
+                .findAny()
+                .orElseThrow(VerticeNaoEncontradoException::new);
+    }
+
+    public Vertice getVerticePorPosicaoMatriz(int posicaoMatriz) throws VerticeNaoEncontradoException {
+        return this.vertices
+                .stream()
+                .filter((vertice) -> vertice.getPosicaoMatriz() == posicaoMatriz)
+                .findAny()
+                .orElseThrow(VerticeNaoEncontradoException::new);
+    }
+
+    public LinkedList<Vertice> buscaAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
+        Vertice vm = this.buscaVertice(v);
+        LinkedList<Vertice> verticesAdjacentesAV1 = new LinkedList<>();
+        for (int i = 0; i < this.matrizAdjacencia[vm.getPosicaoMatriz()].length; i++) {
+            if (this.matrizAdjacencia[vm.getPosicaoMatriz()][i] == 1) {
+                verticesAdjacentesAV1.push(this.getVerticePorPosicaoMatriz(i));
+            }
+        }
+        return verticesAdjacentesAV1;
+    }
+
+    /**
+     * Inicializa as relacoes de adjacencia da matriz com valores zerados
+     */
+    private void inicializaElementosMatrizAdjacencia() {
+        for (int i = 0; i < this.matrizAdjacencia.length; i++) {
+            for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
+                this.matrizAdjacencia[i][j] = 0;
+            }
+        }
+    }
 }

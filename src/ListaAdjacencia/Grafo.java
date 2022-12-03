@@ -12,7 +12,7 @@ import Util.*;
  * Representação de grafos utilizando Lista de Adjacência
  */
 
-public class Grafo {
+public class Grafo implements Util.Grafo {
     private LinkedList<Adjacentes> listaAdjacentes;
     private int quantidadeArestas;
 
@@ -33,7 +33,7 @@ public class Grafo {
     /**
      * Adiciona um vertice ao grafo
      * 
-     * @param Vertice v
+     * @param v
      * @throws VerticeJaExisteException
      */
     public void adicionarVertice(Vertice v) throws VerticeJaExisteException {
@@ -45,7 +45,7 @@ public class Grafo {
     /**
      * Remove um vertice do grafo
      * 
-     * @param Vertice v
+     * @param v
      * @throws VerticeNaoEncontradoException
      */
     public void removerVertice(Vertice v) throws VerticeNaoEncontradoException {
@@ -58,8 +58,8 @@ public class Grafo {
      * Adiciona uma aresta entre um vertice convergente e um divergente considerando
      * que o divergente existe no grafo
      * 
-     * @param Vertice v1
-     * @param Vertice v2
+     * @param v1
+     * @param v2
      * @throws VerticeNaoEncontradoException
      */
     public void adicionarAresta(Vertice v1, Vertice v2)
@@ -80,8 +80,8 @@ public class Grafo {
      * Remove uma aresta entre um vertice convergente e um divergente considerando
      * que o divergente existe no grafo
      * 
-     * @param Vertice v1
-     * @param Vertice v2
+     * @param v1
+     * @param v2
      * @throws VerticeNaoEncontradoException
      */
     public void removerAresta(Vertice v1, Vertice v2) throws VerticeNaoEncontradoException {
@@ -144,22 +144,22 @@ public class Grafo {
     /**
      * Checa se duas arestas sao adjacentes
      * 
-     * @param inicioAresta1
-     * @param fimAresta1
-     * @param inicioAresta2
-     * @param fimAresta2
+     * @param vA1
+     * @param vA2
+     * @param vB1
+     * @param vB2
      * @return boolean
      * @throws VerticeNaoEncontradoException
      */
-    public boolean arestasSaoAdjacentes(Vertice inicioAresta1, Vertice fimAresta1, Vertice inicioAresta2,
-            Vertice fimAresta2) throws VerticeNaoEncontradoException {
-        this.criaExcecaoSeVerticeNaoExistir(inicioAresta1);
-        this.criaExcecaoSeVerticeNaoExistir(fimAresta1);
-        this.criaExcecaoSeVerticeNaoExistir(inicioAresta2);
-        this.criaExcecaoSeVerticeNaoExistir(fimAresta2);
+    public boolean arestasSaoAdjacentes(Vertice vA1, Vertice vA2, Vertice vB1,
+            Vertice vB2) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(vA1);
+        this.criaExcecaoSeVerticeNaoExistir(vA2);
+        this.criaExcecaoSeVerticeNaoExistir(vB1);
+        this.criaExcecaoSeVerticeNaoExistir(vB2);
 
-        return inicioAresta1.equals(inicioAresta2) || fimAresta1.equals(inicioAresta2)
-                || inicioAresta2.equals(fimAresta1) || fimAresta2.equals(inicioAresta1);
+        return vA1.equals(vB1) || vA2.equals(vB1)
+                || vB1.equals(vA2) || vB2.equals(vA1);
     }
 
     /**
