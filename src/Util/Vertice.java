@@ -1,7 +1,7 @@
 package Util;
 
 /**
- * Representação de um Vertice
+ * Representação de um vertice de um grafo
  */
 
 public class Vertice extends ItemGrafo {

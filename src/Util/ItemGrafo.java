@@ -1,5 +1,9 @@
 package Util;
 
+/**
+ * Representacao de um item a ser utilizado dentro de um grafo
+ */
+
 public class ItemGrafo {
     private char rotulo;
     private int peso;

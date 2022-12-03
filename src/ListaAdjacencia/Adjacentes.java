@@ -1,6 +1,8 @@
 package ListaAdjacencia;
 
 import java.util.LinkedList;
+
+import Exception.VerticeJaAdicionadoComoAdjacente;
 import Util.*;
 
 /**
@@ -22,7 +24,10 @@ public class Adjacentes {
      * 
      * @param v
      */
-    public void adicionarVertice(Vertice v) {
+    public void adicionarVertice(Vertice v) throws VerticeJaAdicionadoComoAdjacente {
+        if (this.verticesAdjacentes.contains(v)) {
+            throw new VerticeJaAdicionadoComoAdjacente();
+        }
         this.verticesAdjacentes.add(v);
     }
 
@@ -52,6 +57,15 @@ public class Adjacentes {
      */
     public LinkedList<Vertice> getVerticesAdjacentes() {
         return this.verticesAdjacentes;
+    }
+
+    /**
+     * Verifica se o vertice possui adjacentes
+     * 
+     * @return boolean
+     */
+    public boolean possuiVerticesAdjacentes() {
+        return !this.verticesAdjacentes.isEmpty();
     }
 
     /**

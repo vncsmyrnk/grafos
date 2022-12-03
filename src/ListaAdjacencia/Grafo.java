@@ -1,7 +1,9 @@
 package ListaAdjacencia;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
+import Exception.VerticeJaAdicionadoComoAdjacente;
 import Exception.VerticeJaExisteException;
 import Exception.VerticeNaoEncontradoException;
 import Util.*;
@@ -12,13 +14,16 @@ import Util.*;
 
 public class Grafo {
     private LinkedList<Adjacentes> listaAdjacentes;
+    private int quantidadeArestas;
 
     public Grafo() {
         this.listaAdjacentes = new LinkedList<>();
+        this.quantidadeArestas = 0;
     }
 
     public Grafo(Vertice... vertices) throws VerticeJaExisteException {
         this.listaAdjacentes = new LinkedList<>();
+        this.quantidadeArestas = 0;
         for (Vertice vertice : vertices) {
             this.criaExcecaoSeVerticeJaExistir(vertice);
             this.listaAdjacentes.add(new Adjacentes(vertice));
@@ -53,30 +58,53 @@ public class Grafo {
      * Adiciona uma aresta entre um vertice convergente e um divergente considerando
      * que o divergente existe no grafo
      * 
-     * @param Vertice divergente
-     * @param Vertice covergente
+     * @param Vertice v1
+     * @param Vertice v2
      * @throws VerticeNaoEncontradoException
      */
-    public void adicionarAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
-        this.criaExcecaoSeVerticeNaoExistir(divergente);
-        this.criaExcecaoSeVerticeNaoExistir(covergente);
-        Adjacentes verticesAdjacentes = this.buscaAdjacentes(divergente);
-        verticesAdjacentes.adicionarVertice(covergente);
+    public void adicionarAresta(Vertice v1, Vertice v2)
+            throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente {
+        this.criaExcecaoSeVerticeNaoExistir(v1);
+        this.criaExcecaoSeVerticeNaoExistir(v2);
+
+        Adjacentes verticesAdjacentesAV1 = this.buscaAdjacentes(v1);
+        verticesAdjacentesAV1.adicionarVertice(v2);
+
+        Adjacentes verticesAdjacentesAV2 = this.buscaAdjacentes(v2);
+        verticesAdjacentesAV2.adicionarVertice(v1);
+
+        this.quantidadeArestas++;
     }
 
     /**
      * Remove uma aresta entre um vertice convergente e um divergente considerando
      * que o divergente existe no grafo
      * 
-     * @param Vertice divergente
-     * @param Vertice covergente
+     * @param Vertice v1
+     * @param Vertice v2
      * @throws VerticeNaoEncontradoException
      */
-    public void removerAresta(Vertice divergente, Vertice covergente) throws VerticeNaoEncontradoException {
-        this.criaExcecaoSeVerticeNaoExistir(divergente);
-        this.criaExcecaoSeVerticeNaoExistir(covergente);
-        Adjacentes verticesAdjacentes = this.buscaAdjacentes(divergente);
-        verticesAdjacentes.removerVertice(covergente);
+    public void removerAresta(Vertice v1, Vertice v2) throws VerticeNaoEncontradoException {
+        this.criaExcecaoSeVerticeNaoExistir(v1);
+        this.criaExcecaoSeVerticeNaoExistir(v2);
+
+        Adjacentes verticesAdjacentesAV1 = this.buscaAdjacentes(v1);
+        verticesAdjacentesAV1.removerVertice(v2);
+
+        Adjacentes verticesAdjacentesAV2 = this.buscaAdjacentes(v2);
+        verticesAdjacentesAV2.removerVertice(v1);
+    }
+
+    /**
+     * Obtem uma lista dos vertices que existem no grafo
+     * 
+     * @return LinkedList<Vertice>
+     */
+    public LinkedList<Vertice> getVertices() {
+        return this.listaAdjacentes
+                .stream()
+                .map(Adjacentes::getVertice)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -139,7 +167,7 @@ public class Grafo {
      * 
      * @param v1
      * @param v2
-     * @return
+     * @return boolean
      */
     public boolean existeAresta(Vertice v1, Vertice v2) {
         try {
@@ -156,6 +184,56 @@ public class Grafo {
         } catch (VerticeNaoEncontradoException e) {
             return false;
         }
+    }
+
+    /**
+     * Calcula a quantidade de vertices que existem no grafo
+     * 
+     * @return int
+     */
+    public int quantidadeVertices() {
+        return this.listaAdjacentes.size();
+    }
+
+    /**
+     * Retorna a quantidade armazenada de arestas
+     * 
+     * @return int
+     */
+    public int quantidadeArestas() {
+        return this.quantidadeArestas;
+    }
+
+    /**
+     * Verifica se o grafo eh nulo. Um grafo nulo nao possui arestas
+     * 
+     * @return boolean
+     */
+    public boolean ehNulo() {
+        for (Adjacentes adjacentes : this.listaAdjacentes) {
+            if (adjacentes.possuiVerticesAdjacentes()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Verifica se o grafo eh completo. Em um grafo completo um vertice esta
+     * conectado a todos os demais
+     * 
+     * @return boolean
+     */
+    public boolean ehCompleto() {
+        LinkedList<Vertice> vertices = this.getVertices();
+        for (Adjacentes adjacentes : this.listaAdjacentes) {
+            for (Vertice vertice : vertices) {
+                if (!adjacentes.ehDoVertice(vertice) && !adjacentes.existeAdjacencia(vertice)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
