@@ -211,6 +211,13 @@ public class Grafo implements Util.Grafo {
                 .orElseThrow(VerticeNaoEncontradoException::new);
     }
 
+    /**
+     * Obtem detalhes sobre um vertice a partir de sua posicao na matriz
+     * 
+     * @param posicaoMatriz
+     * @return Vertice
+     * @throws VerticeNaoEncontradoException
+     */
     public Vertice getVerticePorPosicaoMatriz(int posicaoMatriz) throws VerticeNaoEncontradoException {
         return this.vertices
                 .stream()
@@ -219,6 +226,13 @@ public class Grafo implements Util.Grafo {
                 .orElseThrow(VerticeNaoEncontradoException::new);
     }
 
+    /**
+     * Obtem os vertices adjacentes a um determinado vertice
+     * 
+     * @param v
+     * @return Util.Vertice
+     * @throws VerticeNaoEncontradoException
+     */
     public LinkedList<Util.Vertice> adjacentes(Util.Vertice v) throws VerticeNaoEncontradoException {
         Vertice vm = this.buscaVertice(v);
         LinkedList<Vertice> verticesAdjacentesAV1 = new LinkedList<>();
@@ -231,6 +245,16 @@ public class Grafo implements Util.Grafo {
                 .stream()
                 .map((vertice) -> vertice.toVerticeOriginal())
                 .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     * Desfaz sinalizacoes realizadas nos vertices em processos anteriores
+     */
+    public void desfazSinalizacoesVertices() {
+        for (Vertice v : this.vertices) {
+            v.desfazDescoberta();
+            v.desfazVisita();
+        }
     }
 
     /**

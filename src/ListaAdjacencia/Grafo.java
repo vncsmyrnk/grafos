@@ -222,6 +222,8 @@ public class Grafo implements Util.Grafo {
         this.arestas = new LinkedList<>();
         LinkedList<Vertice> vertices = this.getVertices();
         this.desfazSinalizacoesVertices();
+
+        // Realiza busca em largura para identificacao das arestas
         for (Vertice v : vertices) {
             if (v.naoFoiVisitado()) {
                 setArestasAdjacentes(v);
@@ -310,6 +312,9 @@ public class Grafo implements Util.Grafo {
         }
     }
 
+    /**
+     * Desfaz sinalizacoes realizadas nos vertices em processos anteriores
+     */
     public void desfazSinalizacoesVertices() {
         for (Vertice v : this.getVertices()) {
             v.desfazDescoberta();

@@ -33,4 +33,6 @@ public interface Grafo {
         public LinkedList<Vertice> adjacentes(Vertice v) throws VerticeNaoEncontradoException;
 
         public LinkedList<Aresta> getArestas() throws VerticeNaoEncontradoException;
+
+        public void desfazSinalizacoesVertices();
 }

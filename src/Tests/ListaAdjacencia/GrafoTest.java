@@ -125,14 +125,11 @@ public class GrafoTest {
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
 
-    // Teste comentado para analise da criacao de ocorrencias, considerando que tem
-    // q ser possivel rodar os algoritmos em matriz tb
-    // @Test(expected = VerticeNaoEncontradoException.class)
-    // public void testGrafoAdicionarArestaEmVerticeNaoExistente() throws Exception
-    // {
-    // Grafo h = new Grafo(vA, vB);
-    // h.adicionarAresta(vA, vC);
-    // }
+    @Test(expected = VerticeNaoEncontradoException.class)
+    public void testGrafoAdicionarArestaEmVerticeNaoExistente() throws Exception {
+        Grafo h = new Grafo(vA, vB);
+        h.adicionarAresta(vA, vC);
+    }
 
     @Test(expected = VerticeNaoEncontradoException.class)
     public void testCriarGrafoRemoverVerticeInexistente() throws Exception {

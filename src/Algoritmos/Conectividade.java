@@ -37,9 +37,9 @@ public class Conectividade {
     public static int quantidadeComponentes(Grafo g) throws VerticeNaoEncontradoException {
         int quantidadeComponentes = 0;
         LinkedList<Vertice> vertices = g.getVertices();
-        for (Vertice v : vertices) {
-            v.desfazDescoberta();
-        }
+        g.desfazSinalizacoesVertices();
+
+        // Realiza busca em profundidade para a contabilizacao de componentes
         for (Vertice v : vertices) {
             if (v.naoFoiDescoberto()) {
                 buscaVerticeAdjacente(g, v);
