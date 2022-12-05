@@ -25,19 +25,21 @@ public class Pontes {
      * @TODO Por algum motivo eh necessario chamar essa funcao 2x pra funcionar
      * 
      * @param g
-     * @return
+     * @return Aresta
      * @throws VerticeNaoEncontradoException
      * @throws GrafoNaoPossuiPonteException
+     * @throws VerticeJaAdicionadoComoAdjacente
      */
     public static Aresta identificaPonteGrafo(Grafo g)
             throws VerticeNaoEncontradoException, GrafoNaoPossuiPonteException, VerticeJaAdicionadoComoAdjacente,
             VerticeJaExisteException {
+        int quantidadeInicialComponentes = Conectividade.quantidadeComponentes(g);
         LinkedList<Aresta> arestas = g.getArestas();
         for (Aresta a : arestas) {
             Vertice v1 = a.getVertice1();
             Vertice v2 = a.getVertice2();
             g.removerAresta(v1, v2);
-            if (!Conectividade.ehGrafoConexo(g)) {
+            if (Conectividade.quantidadeComponentes(g) > quantidadeInicialComponentes) {
                 g.adicionarAresta(v1, v2);
                 return a;
             }

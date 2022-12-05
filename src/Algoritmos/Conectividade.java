@@ -21,6 +21,20 @@ public class Conectividade {
      * @throws VerticeNaoEncontradoException
      */
     public static boolean ehGrafoConexo(Grafo g) throws VerticeNaoEncontradoException {
+        return quantidadeComponentes(g) == 1;
+    }
+
+    /**
+     * Calcula a quantidade de componentes conexos que existem no grafo. Um
+     * componente conexo de um grafo não-dirigido G é o
+     * sub­grafo de G induzido por alguma das classes de equivalência da relação
+     * ao‑alcance‑de
+     * 
+     * @param g
+     * @return int
+     * @throws VerticeNaoEncontradoException
+     */
+    public static int quantidadeComponentes(Grafo g) throws VerticeNaoEncontradoException {
         int quantidadeComponentes = 0;
         LinkedList<Vertice> vertices = g.getVertices();
         for (Vertice v : vertices) {
@@ -30,12 +44,9 @@ public class Conectividade {
             if (v.naoFoiDescoberto()) {
                 buscaVerticeAdjacente(g, v);
                 quantidadeComponentes++;
-                if (quantidadeComponentes == 2) {
-                    return false;
-                }
             }
         }
-        return true;
+        return quantidadeComponentes;
     }
 
     /**
