@@ -20,7 +20,7 @@ public class Conectividade {
      * @return boolean
      * @throws VerticeNaoEncontradoException
      */
-    public static boolean ehConexo(Grafo g) throws VerticeNaoEncontradoException {
+    public static boolean ehGrafoConexo(Grafo g) throws VerticeNaoEncontradoException {
         int quantidadeComponentes = 0;
         LinkedList<Vertice> vertices = g.getVertices();
         for (Vertice v : vertices) {

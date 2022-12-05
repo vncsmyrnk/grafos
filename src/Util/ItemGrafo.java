@@ -5,17 +5,23 @@ package Util;
  */
 
 public class ItemGrafo {
-    private char rotulo;
+    private String rotulo;
     private int peso;
     private boolean sinalizado;
 
-    public ItemGrafo(char rotulo) {
+    public ItemGrafo() {
+        this.rotulo = String.valueOf(this.hashCode());
+        this.peso = 1;
+        this.sinalizado = false;
+    }
+
+    public ItemGrafo(String rotulo) {
         this.rotulo = rotulo;
         this.peso = 1;
         this.sinalizado = false;
     }
 
-    public ItemGrafo(char rotulo, int peso) {
+    public ItemGrafo(String rotulo, int peso) {
         this.rotulo = rotulo;
         this.peso = peso;
         this.sinalizado = false;
@@ -24,9 +30,9 @@ public class ItemGrafo {
     /**
      * Retorna o rotulo
      * 
-     * @return char
+     * @return String
      */
-    public char getRotulo() {
+    public String getRotulo() {
         return this.rotulo;
     }
 
@@ -86,6 +92,6 @@ public class ItemGrafo {
         if (v == null) {
             return false;
         }
-        return this.rotulo == v.getRotulo();
+        return this.rotulo.equals(v.getRotulo());
     }
 }

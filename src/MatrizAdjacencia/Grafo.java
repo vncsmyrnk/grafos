@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 import Exception.VerticeNaoEncontradoException;
+import Util.Aresta;
 
 /**
  * Representação de grafos utilizando Matriz de Adjacência
@@ -131,17 +132,35 @@ public class Grafo implements Util.Grafo {
      * Retorna a quantidade armazenada de arestas
      * 
      * @return int
+     * @throws VerticeNaoEncontradoException
      */
-    public int quantidadeArestas() {
-        int quantidadeRelacoes = 0;
+    public int quantidadeArestas() throws VerticeNaoEncontradoException {
+        return this.getArestas().size();
+    }
+
+    /**
+     * Retorna uma lista com as arestas existentes no grafo
+     * 
+     * @return LinkedList<Aresta>
+     * @throws VerticeNaoEncontradoException
+     */
+    public LinkedList<Aresta> getArestas() throws VerticeNaoEncontradoException {
+        LinkedList<Aresta> arestas = new LinkedList<>();
+        LinkedList<Util.Vertice> vertices = this.getVertices();
+        for (Util.Vertice v : vertices) {
+            v.cancelaSinalizacao();
+        }
         for (int i = 0; i < this.matrizAdjacencia.length; i++) {
+            Vertice vI = this.getVerticePorPosicaoMatriz(i);
+            vI.sinaliza();
             for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
-                if (this.matrizAdjacencia[i][j] == 1) {
-                    quantidadeRelacoes++;
+                Vertice vJ = this.getVerticePorPosicaoMatriz(j);
+                if (this.matrizAdjacencia[i][j] == 1 && vJ.naoEstaSinalizado()) {
+                    arestas.add(new Aresta(vI, vJ));
                 }
             }
         }
-        return quantidadeRelacoes / 2;
+        return arestas;
     }
 
     /**

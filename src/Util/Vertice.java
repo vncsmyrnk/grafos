@@ -5,11 +5,11 @@ package Util;
  */
 
 public class Vertice extends ItemGrafo {
-    public Vertice(char rotulo) {
+    public Vertice(String rotulo) {
         super(rotulo);
     }
 
-    public Vertice(char rotulo, int peso) {
+    public Vertice(String rotulo, int peso) {
         super(rotulo, peso);
     }
 }

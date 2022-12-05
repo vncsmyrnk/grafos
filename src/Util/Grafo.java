@@ -18,9 +18,9 @@ public interface Grafo {
 
         public boolean existeAresta(Vertice v1, Vertice v2);
 
-        public int quantidadeVertices();
+        public int quantidadeVertices() throws VerticeNaoEncontradoException;
 
-        public int quantidadeArestas();
+        public int quantidadeArestas() throws VerticeNaoEncontradoException;
 
         public boolean ehNulo();
 
@@ -29,4 +29,6 @@ public interface Grafo {
         public LinkedList<Vertice> getVertices();
 
         public LinkedList<Vertice> adjacentes(Vertice v) throws VerticeNaoEncontradoException;
+
+        public LinkedList<Aresta> getArestas() throws VerticeNaoEncontradoException;
 }

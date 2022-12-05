@@ -8,17 +8,17 @@ package MatrizAdjacencia;
 public class Vertice extends Util.Vertice {
     private int posicaoMatriz;
 
-    public Vertice(char rotulo) {
+    public Vertice(String rotulo) {
         super(rotulo);
         this.posicaoMatriz = 0;
     }
 
-    public Vertice(char rotulo, int peso) {
+    public Vertice(String rotulo, int peso) {
         super(rotulo, peso);
         this.posicaoMatriz = 0;
     }
 
-    public Vertice(char rotulo, int peso, int posicaoMatriz) {
+    public Vertice(String rotulo, int peso, int posicaoMatriz) {
         super(rotulo, peso);
         this.posicaoMatriz = posicaoMatriz;
     }

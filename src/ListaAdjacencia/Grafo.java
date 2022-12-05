@@ -14,16 +14,14 @@ import Util.*;
 
 public class Grafo implements Util.Grafo {
     private LinkedList<Adjacentes> listaAdjacentes;
-    private int quantidadeArestas;
+    private LinkedList<Aresta> arestas;
 
     public Grafo() {
         this.listaAdjacentes = new LinkedList<>();
-        this.quantidadeArestas = 0;
     }
 
     public Grafo(Vertice... vertices) throws VerticeJaExisteException {
         this.listaAdjacentes = new LinkedList<>();
-        this.quantidadeArestas = 0;
         for (Vertice vertice : vertices) {
             this.criaExcecaoSeVerticeJaExistir(vertice);
             this.listaAdjacentes.add(new Adjacentes(vertice));
@@ -72,8 +70,6 @@ public class Grafo implements Util.Grafo {
 
         Adjacentes verticesAdjacentesAV2 = this.buscaListaAdjacentes(v2);
         verticesAdjacentesAV2.adicionarVertice(v1);
-
-        this.quantidadeArestas++;
     }
 
     /**
@@ -210,9 +206,48 @@ public class Grafo implements Util.Grafo {
      * Retorna a quantidade armazenada de arestas
      * 
      * @return int
+     * @throws VerticeNaoEncontradoException
      */
-    public int quantidadeArestas() {
-        return this.quantidadeArestas;
+    public int quantidadeArestas() throws VerticeNaoEncontradoException {
+        return this.getArestas().size();
+    }
+
+    /**
+     * Retorna uma lista com as arestas existentes no grafo
+     * 
+     * @return LinkedList<Aresta>
+     * @throws VerticeNaoEncontradoException
+     */
+    public LinkedList<Aresta> getArestas() throws VerticeNaoEncontradoException {
+        this.arestas = new LinkedList<>();
+        LinkedList<Vertice> vertices = this.getVertices();
+        for (Vertice v : vertices) {
+            v.cancelaSinalizacao();
+        }
+        for (Vertice v : vertices) {
+            if (v.naoEstaSinalizado()) {
+                setArestasAdjacentes(v);
+            }
+        }
+        return this.arestas;
+    }
+
+    /**
+     * Percorre os vertices adjacentes a um vertice do grafo granvando-os em uma
+     * lista
+     * 
+     * @param v
+     * @throws VerticeNaoEncontradoException
+     */
+    public void setArestasAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
+        v.sinaliza();
+        for (Vertice adjacente : this.adjacentes(v)) {
+            if (adjacente.naoEstaSinalizado()) {
+                setArestasAdjacentes(adjacente);
+                this.arestas.add(new Aresta(v, adjacente));
+            }
+        }
+        return;
     }
 
     /**
