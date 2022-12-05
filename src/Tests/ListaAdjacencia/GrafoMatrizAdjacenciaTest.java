@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import Exception.VerticeJaExisteException;
 import Exception.VerticeNaoEncontradoException;
-import MatrizAdjacencia.Vertice;
+import Util.Vertice;
 import MatrizAdjacencia.Grafo;
 
 public class GrafoMatrizAdjacenciaTest {
@@ -41,7 +41,7 @@ public class GrafoMatrizAdjacenciaTest {
         LinkedList<Vertice> listaEsperadaVerticesAdjacentesA = new LinkedList<Vertice>();
         listaEsperadaVerticesAdjacentesA.push(vB);
 
-        LinkedList<Vertice> listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        LinkedList<Vertice> listaVerticesAdjacentesA = g.adjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
@@ -63,7 +63,7 @@ public class GrafoMatrizAdjacenciaTest {
         listaEsperadaVerticesAdjacentesA.push(vB);
         listaEsperadaVerticesAdjacentesA.push(vC);
 
-        LinkedList<Vertice> listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        LinkedList<Vertice> listaVerticesAdjacentesA = g.adjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
 
@@ -73,7 +73,7 @@ public class GrafoMatrizAdjacenciaTest {
         listaEsperadaVerticesAdjacentesB.push(vD);
         listaEsperadaVerticesAdjacentesB.push(vE);
 
-        LinkedList<Vertice> listaVerticesAdjacentesB = g.buscaAdjacentes(vB);
+        LinkedList<Vertice> listaVerticesAdjacentesB = g.adjacentes(vB);
 
         assertTrue(listaEsperadaVerticesAdjacentesB.equals(listaVerticesAdjacentesB));
 
@@ -82,7 +82,7 @@ public class GrafoMatrizAdjacenciaTest {
         listaEsperadaVerticesAdjacentesC.push(vB);
         listaEsperadaVerticesAdjacentesC.push(vD);
 
-        LinkedList<Vertice> listaVerticesAdjacentesC = g.buscaAdjacentes(vC);
+        LinkedList<Vertice> listaVerticesAdjacentesC = g.adjacentes(vC);
 
         assertTrue(listaEsperadaVerticesAdjacentesC.equals(listaVerticesAdjacentesC));
 
@@ -91,7 +91,7 @@ public class GrafoMatrizAdjacenciaTest {
         listaEsperadaVerticesAdjacentesD.push(vC);
         listaEsperadaVerticesAdjacentesD.push(vE);
 
-        LinkedList<Vertice> listaVerticesAdjacentesD = g.buscaAdjacentes(vD);
+        LinkedList<Vertice> listaVerticesAdjacentesD = g.adjacentes(vD);
 
         assertTrue(listaEsperadaVerticesAdjacentesD.equals(listaVerticesAdjacentesD));
 
@@ -99,7 +99,7 @@ public class GrafoMatrizAdjacenciaTest {
         listaEsperadaVerticesAdjacentesE.push(vB);
         listaEsperadaVerticesAdjacentesE.push(vD);
 
-        LinkedList<Vertice> listaVerticesAdjacentesE = g.buscaAdjacentes(vE);
+        LinkedList<Vertice> listaVerticesAdjacentesE = g.adjacentes(vE);
 
         assertTrue(listaEsperadaVerticesAdjacentesE.equals(listaVerticesAdjacentesE));
     }
@@ -114,7 +114,7 @@ public class GrafoMatrizAdjacenciaTest {
         LinkedList<Vertice> listaEsperadaVerticesAdjacentesA = new LinkedList<Vertice>();
         listaEsperadaVerticesAdjacentesA.push(vC);
 
-        LinkedList<Vertice> listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        LinkedList<Vertice> listaVerticesAdjacentesA = g.adjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }

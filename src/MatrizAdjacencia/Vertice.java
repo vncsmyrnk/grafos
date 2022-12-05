@@ -1,5 +1,10 @@
 package MatrizAdjacencia;
 
+/**
+ * Representacao de um vertice de uma matriz de adjacencia. Possui uma indicacao
+ * extra da posicao do mesmo na estrutura de dados
+ */
+
 public class Vertice extends Util.Vertice {
     private int posicaoMatriz;
 
@@ -18,7 +23,21 @@ public class Vertice extends Util.Vertice {
         this.posicaoMatriz = posicaoMatriz;
     }
 
+    /**
+     * Retorna a posicao do vertice na estrutura de dados
+     * 
+     * @return int
+     */
     public int getPosicaoMatriz() {
         return this.posicaoMatriz;
+    }
+
+    /**
+     * Retorna um equivalente do vertice em sua forma original
+     * 
+     * @return Util.Vertice
+     */
+    public Util.Vertice toVerticeOriginal() {
+        return new Util.Vertice(this.getRotulo(), this.getPeso());
     }
 }

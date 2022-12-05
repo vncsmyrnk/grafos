@@ -55,7 +55,7 @@ public class Adjacentes {
      * 
      * @return LinkedList<Vertice2>
      */
-    public LinkedList<Vertice> getVerticesAdjacentes() {
+    public LinkedList<Vertice> getVertices() {
         return this.verticesAdjacentes;
     }
 
@@ -101,6 +101,6 @@ public class Adjacentes {
         if (i == null) {
             return false;
         }
-        return this.vertice.equals(i.getVertice()) && this.verticesAdjacentes.equals(i.getVerticesAdjacentes());
+        return this.vertice.equals(i.getVertice()) && this.verticesAdjacentes.equals(i.getVertices());
     }
 }

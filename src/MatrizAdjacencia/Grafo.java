@@ -1,6 +1,7 @@
 package MatrizAdjacencia;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 import Exception.VerticeNaoEncontradoException;
 
@@ -12,9 +13,9 @@ public class Grafo implements Util.Grafo {
     private LinkedList<Vertice> vertices;
     private int[][] matrizAdjacencia;
 
-    public Grafo(Vertice... vertices) {
+    public Grafo(Util.Vertice... vertices) {
         this.vertices = new LinkedList<>();
-        for (Vertice vertice : vertices) {
+        for (Util.Vertice vertice : vertices) {
             this.vertices.add(new Vertice(vertice.getRotulo(), vertice.getPeso(), this.vertices.size()));
         }
         this.matrizAdjacencia = new int[this.vertices.size()][this.vertices.size()];
@@ -50,6 +51,18 @@ public class Grafo implements Util.Grafo {
         Vertice vm2 = this.buscaVertice(v2);
         this.matrizAdjacencia[vm1.getPosicaoMatriz()][vm2.getPosicaoMatriz()] = 0;
         this.matrizAdjacencia[vm2.getPosicaoMatriz()][vm1.getPosicaoMatriz()] = 0;
+    }
+
+    /**
+     * Obtem uma lista dos vertices que existem no grafo
+     * 
+     * @return LinkedList<Vertice>
+     */
+    public LinkedList<Util.Vertice> getVertices() {
+        return this.vertices
+                .stream()
+                .map((vertice) -> vertice.toVerticeOriginal())
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -187,7 +200,7 @@ public class Grafo implements Util.Grafo {
                 .orElseThrow(VerticeNaoEncontradoException::new);
     }
 
-    public LinkedList<Vertice> buscaAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
+    public LinkedList<Util.Vertice> adjacentes(Util.Vertice v) throws VerticeNaoEncontradoException {
         Vertice vm = this.buscaVertice(v);
         LinkedList<Vertice> verticesAdjacentesAV1 = new LinkedList<>();
         for (int i = 0; i < this.matrizAdjacencia[vm.getPosicaoMatriz()].length; i++) {
@@ -195,7 +208,10 @@ public class Grafo implements Util.Grafo {
                 verticesAdjacentesAV1.push(this.getVerticePorPosicaoMatriz(i));
             }
         }
-        return verticesAdjacentesAV1;
+        return verticesAdjacentesAV1
+                .stream()
+                .map((vertice) -> vertice.toVerticeOriginal())
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

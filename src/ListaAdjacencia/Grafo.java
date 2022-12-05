@@ -50,7 +50,7 @@ public class Grafo implements Util.Grafo {
      */
     public void removerVertice(Vertice v) throws VerticeNaoEncontradoException {
         this.criaExcecaoSeVerticeNaoExistir(v);
-        Adjacentes verticesAdjacentes = this.buscaAdjacentes(v);
+        Adjacentes verticesAdjacentes = this.buscaListaAdjacentes(v);
         this.listaAdjacentes.remove(verticesAdjacentes);
     }
 
@@ -67,10 +67,10 @@ public class Grafo implements Util.Grafo {
         this.criaExcecaoSeVerticeNaoExistir(v1);
         this.criaExcecaoSeVerticeNaoExistir(v2);
 
-        Adjacentes verticesAdjacentesAV1 = this.buscaAdjacentes(v1);
+        Adjacentes verticesAdjacentesAV1 = this.buscaListaAdjacentes(v1);
         verticesAdjacentesAV1.adicionarVertice(v2);
 
-        Adjacentes verticesAdjacentesAV2 = this.buscaAdjacentes(v2);
+        Adjacentes verticesAdjacentesAV2 = this.buscaListaAdjacentes(v2);
         verticesAdjacentesAV2.adicionarVertice(v1);
 
         this.quantidadeArestas++;
@@ -88,10 +88,10 @@ public class Grafo implements Util.Grafo {
         this.criaExcecaoSeVerticeNaoExistir(v1);
         this.criaExcecaoSeVerticeNaoExistir(v2);
 
-        Adjacentes verticesAdjacentesAV1 = this.buscaAdjacentes(v1);
+        Adjacentes verticesAdjacentesAV1 = this.buscaListaAdjacentes(v1);
         verticesAdjacentesAV1.removerVertice(v2);
 
-        Adjacentes verticesAdjacentesAV2 = this.buscaAdjacentes(v2);
+        Adjacentes verticesAdjacentesAV2 = this.buscaListaAdjacentes(v2);
         verticesAdjacentesAV2.removerVertice(v1);
     }
 
@@ -112,14 +112,25 @@ public class Grafo implements Util.Grafo {
      * retornado
      * 
      * @param v
-     * @return Vertice | null
+     * @return Adjacentes
      */
-    public Adjacentes buscaAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
+    public Adjacentes buscaListaAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
         return this.listaAdjacentes
                 .stream()
                 .filter((item) -> item.ehDoVertice(v))
                 .findAny()
                 .orElseThrow(VerticeNaoEncontradoException::new);
+    }
+
+    /**
+     * Busca a lista de adjacencia de um vertice do grafo. Caso nao exista nulo e
+     * retornado
+     * 
+     * @param v
+     * @return LinkedList<Vertice>
+     */
+    public LinkedList<Util.Vertice> adjacentes(Vertice v) throws VerticeNaoEncontradoException {
+        return this.buscaListaAdjacentes(v).getVertices();
     }
 
     /**
@@ -134,7 +145,7 @@ public class Grafo implements Util.Grafo {
             this.criaExcecaoSeVerticeNaoExistir(v1);
             this.criaExcecaoSeVerticeNaoExistir(v2);
 
-            Adjacentes adjacentesAV1 = this.buscaAdjacentes(v1);
+            Adjacentes adjacentesAV1 = this.buscaListaAdjacentes(v1);
             return adjacentesAV1.existeAdjacencia(v2);
         } catch (VerticeNaoEncontradoException e) {
             return false;
@@ -174,12 +185,12 @@ public class Grafo implements Util.Grafo {
             this.criaExcecaoSeVerticeNaoExistir(v1);
             this.criaExcecaoSeVerticeNaoExistir(v2);
 
-            Adjacentes adjacentesAV1 = this.buscaAdjacentes(v1);
+            Adjacentes adjacentesAV1 = this.buscaListaAdjacentes(v1);
             if (adjacentesAV1.existeAdjacencia(v2)) {
                 return true;
             }
 
-            Adjacentes adjacentesAV2 = this.buscaAdjacentes(v2);
+            Adjacentes adjacentesAV2 = this.buscaListaAdjacentes(v2);
             return adjacentesAV2.existeAdjacencia(v1);
         } catch (VerticeNaoEncontradoException e) {
             return false;

@@ -41,7 +41,7 @@ public class GrafoListaAdjacenciaTest {
         Adjacentes listaEsperadaVerticesAdjacentesA = new Adjacentes(vA);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vB);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaListaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
@@ -63,7 +63,7 @@ public class GrafoListaAdjacenciaTest {
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vB);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vC);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaListaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
 
@@ -73,7 +73,7 @@ public class GrafoListaAdjacenciaTest {
         listaEsperadaVerticesAdjacentesB.adicionarVertice(vE);
         listaEsperadaVerticesAdjacentesB.adicionarVertice(vC);
 
-        Adjacentes listaVerticesAdjacentesB = g.buscaAdjacentes(vB);
+        Adjacentes listaVerticesAdjacentesB = g.buscaListaAdjacentes(vB);
 
         assertTrue(listaEsperadaVerticesAdjacentesB.equals(listaVerticesAdjacentesB));
 
@@ -82,7 +82,7 @@ public class GrafoListaAdjacenciaTest {
         listaEsperadaVerticesAdjacentesC.adicionarVertice(vB);
         listaEsperadaVerticesAdjacentesC.adicionarVertice(vD);
 
-        Adjacentes listaVerticesAdjacentesC = g.buscaAdjacentes(vC);
+        Adjacentes listaVerticesAdjacentesC = g.buscaListaAdjacentes(vC);
 
         assertTrue(listaEsperadaVerticesAdjacentesC.equals(listaVerticesAdjacentesC));
 
@@ -91,7 +91,7 @@ public class GrafoListaAdjacenciaTest {
         listaEsperadaVerticesAdjacentesD.adicionarVertice(vC);
         listaEsperadaVerticesAdjacentesD.adicionarVertice(vE);
 
-        Adjacentes listaVerticesAdjacentesD = g.buscaAdjacentes(vD);
+        Adjacentes listaVerticesAdjacentesD = g.buscaListaAdjacentes(vD);
 
         assertTrue(listaEsperadaVerticesAdjacentesD.equals(listaVerticesAdjacentesD));
 
@@ -99,7 +99,7 @@ public class GrafoListaAdjacenciaTest {
         listaEsperadaVerticesAdjacentesE.adicionarVertice(vB);
         listaEsperadaVerticesAdjacentesE.adicionarVertice(vD);
 
-        Adjacentes listaVerticesAdjacentesE = g.buscaAdjacentes(vE);
+        Adjacentes listaVerticesAdjacentesE = g.buscaListaAdjacentes(vE);
 
         assertTrue(listaEsperadaVerticesAdjacentesE.equals(listaVerticesAdjacentesE));
     }
@@ -120,7 +120,7 @@ public class GrafoListaAdjacenciaTest {
         Adjacentes listaEsperadaVerticesAdjacentesA = new Adjacentes(vA);
         listaEsperadaVerticesAdjacentesA.adicionarVertice(vC);
 
-        Adjacentes listaVerticesAdjacentesA = g.buscaAdjacentes(vA);
+        Adjacentes listaVerticesAdjacentesA = g.buscaListaAdjacentes(vA);
 
         assertTrue(listaEsperadaVerticesAdjacentesA.equals(listaVerticesAdjacentesA));
     }
