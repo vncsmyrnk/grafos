@@ -30,7 +30,7 @@ public class PontesTest {
         g.adicionarAresta(vE, vF);
 
         Aresta arestaPonte = new Aresta(vC, vD);
-        Pontes.identificaPonteGrafo(g);
+        Aresta a = Pontes.identificaPonteGrafo(g);
 
         assertEquals(arestaPonte, Pontes.identificaPonteGrafo(g));
     }
@@ -46,7 +46,7 @@ public class PontesTest {
         g.adicionarAresta(vA, vC);
         g.adicionarAresta(vC, vB);
 
-        Pontes.identificaPonteGrafo(g);
+        // Pontes.identificaPonteGrafo(g);
         Pontes.identificaPonteGrafo(g);
     }
 }

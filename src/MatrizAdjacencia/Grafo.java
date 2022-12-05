@@ -148,14 +148,14 @@ public class Grafo implements Util.Grafo {
         LinkedList<Aresta> arestas = new LinkedList<>();
         LinkedList<Util.Vertice> vertices = this.getVertices();
         for (Util.Vertice v : vertices) {
-            v.cancelaSinalizacao();
+            v.desfazDescoberta();
         }
         for (int i = 0; i < this.matrizAdjacencia.length; i++) {
             Vertice vI = this.getVerticePorPosicaoMatriz(i);
-            vI.sinaliza();
+            vI.descobre();
             for (int j = 0; j < this.matrizAdjacencia[i].length; j++) {
                 Vertice vJ = this.getVerticePorPosicaoMatriz(j);
-                if (this.matrizAdjacencia[i][j] == 1 && vJ.naoEstaSinalizado()) {
+                if (this.matrizAdjacencia[i][j] == 1 && vJ.naoFoiDescoberto()) {
                     arestas.add(new Aresta(vI, vJ));
                 }
             }

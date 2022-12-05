@@ -3,6 +3,8 @@ package Algoritmos;
 import java.util.LinkedList;
 
 import Exception.GrafoNaoPossuiPonteException;
+import Exception.VerticeJaAdicionadoComoAdjacente;
+import Exception.VerticeJaExisteException;
 import Exception.VerticeNaoEncontradoException;
 import Util.Grafo;
 import Util.Vertice;
@@ -28,16 +30,18 @@ public class Pontes {
      * @throws GrafoNaoPossuiPonteException
      */
     public static Aresta identificaPonteGrafo(Grafo g)
-            throws VerticeNaoEncontradoException, GrafoNaoPossuiPonteException {
+            throws VerticeNaoEncontradoException, GrafoNaoPossuiPonteException, VerticeJaAdicionadoComoAdjacente,
+            VerticeJaExisteException {
         LinkedList<Aresta> arestas = g.getArestas();
         for (Aresta a : arestas) {
             Vertice v1 = a.getVertice1();
             Vertice v2 = a.getVertice2();
             g.removerAresta(v1, v2);
-            if (!Conectividade.ehGrafoConexo(g) && v1.estaSinalizado()
-                    && v2.estaSinalizado()) {
+            if (!Conectividade.ehGrafoConexo(g)) {
+                g.adicionarAresta(v1, v2);
                 return a;
             }
+            g.adicionarAresta(v1, v2);
         }
         throw new GrafoNaoPossuiPonteException();
     }

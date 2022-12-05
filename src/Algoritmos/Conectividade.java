@@ -24,10 +24,10 @@ public class Conectividade {
         int quantidadeComponentes = 0;
         LinkedList<Vertice> vertices = g.getVertices();
         for (Vertice v : vertices) {
-            v.cancelaSinalizacao();
+            v.desfazDescoberta();
         }
         for (Vertice v : vertices) {
-            if (v.naoEstaSinalizado()) {
+            if (v.naoFoiDescoberto()) {
                 buscaVerticeAdjacente(g, v);
                 quantidadeComponentes++;
                 if (quantidadeComponentes == 2) {
@@ -47,9 +47,9 @@ public class Conectividade {
      * @throws VerticeNaoEncontradoException
      */
     public static void buscaVerticeAdjacente(Grafo g, Vertice v) throws VerticeNaoEncontradoException {
-        v.sinaliza();
+        v.descobre();
         for (Vertice adjacente : g.adjacentes(v)) {
-            if (adjacente.naoEstaSinalizado()) {
+            if (adjacente.naoFoiDescoberto()) {
                 buscaVerticeAdjacente(g, adjacente);
             }
         }

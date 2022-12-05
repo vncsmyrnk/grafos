@@ -61,9 +61,9 @@ public class Grafo implements Util.Grafo {
      * @throws VerticeNaoEncontradoException
      */
     public void adicionarAresta(Vertice v1, Vertice v2)
-            throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente {
-        this.criaExcecaoSeVerticeNaoExistir(v1);
-        this.criaExcecaoSeVerticeNaoExistir(v2);
+            throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente, VerticeJaExisteException {
+        this.criaVerticeSeNaoExistir(v1);
+        this.criaVerticeSeNaoExistir(v2);
 
         Adjacentes verticesAdjacentesAV1 = this.buscaListaAdjacentes(v1);
         verticesAdjacentesAV1.adicionarVertice(v2);
@@ -89,6 +89,14 @@ public class Grafo implements Util.Grafo {
 
         Adjacentes verticesAdjacentesAV2 = this.buscaListaAdjacentes(v2);
         verticesAdjacentesAV2.removerVertice(v1);
+
+        if (verticesAdjacentesAV1.getVertices().isEmpty()) {
+            this.removerVertice(v1);
+        }
+
+        if (verticesAdjacentesAV2.getVertices().isEmpty()) {
+            this.removerVertice(v2);
+        }
     }
 
     /**
@@ -221,11 +229,9 @@ public class Grafo implements Util.Grafo {
     public LinkedList<Aresta> getArestas() throws VerticeNaoEncontradoException {
         this.arestas = new LinkedList<>();
         LinkedList<Vertice> vertices = this.getVertices();
+        this.desfazSinalizacoesVertices();
         for (Vertice v : vertices) {
-            v.cancelaSinalizacao();
-        }
-        for (Vertice v : vertices) {
-            if (v.naoEstaSinalizado()) {
+            if (v.naoFoiVisitado()) {
                 setArestasAdjacentes(v);
             }
         }
@@ -240,13 +246,14 @@ public class Grafo implements Util.Grafo {
      * @throws VerticeNaoEncontradoException
      */
     public void setArestasAdjacentes(Vertice v) throws VerticeNaoEncontradoException {
-        v.sinaliza();
+        v.descobre();
         for (Vertice adjacente : this.adjacentes(v)) {
-            if (adjacente.naoEstaSinalizado()) {
-                setArestasAdjacentes(adjacente);
+            if (adjacente.naoFoiDescoberto() || (v.naoFoiVisitado() && adjacente.naoFoiVisitado())) {
                 this.arestas.add(new Aresta(v, adjacente));
+                adjacente.descobre();
             }
         }
+        v.visita();
         return;
     }
 
@@ -298,6 +305,20 @@ public class Grafo implements Util.Grafo {
     }
 
     /**
+     * Cria um vertice se ele ainda nao existir
+     * 
+     * @param v
+     * @throws VerticeJaExisteException
+     */
+    public void criaVerticeSeNaoExistir(Vertice v) throws VerticeJaExisteException {
+        try {
+            this.criaExcecaoSeVerticeNaoExistir(v);
+        } catch (VerticeNaoEncontradoException e) {
+            this.adicionarVertice(v);
+        }
+    }
+
+    /**
      * Levanta uma excecao se o vertice em questao nao existir no grafo
      * 
      * @param v
@@ -308,6 +329,13 @@ public class Grafo implements Util.Grafo {
             if (adjacentes.getVertice().equals(v)) {
                 throw new VerticeJaExisteException();
             }
+        }
+    }
+
+    public void desfazSinalizacoesVertices() {
+        for (Vertice v : this.getVertices()) {
+            v.desfazDescoberta();
+            v.desfazVisita();
         }
     }
 }

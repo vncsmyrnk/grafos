@@ -3,11 +3,13 @@ package Util;
 import java.util.LinkedList;
 
 import Exception.VerticeJaAdicionadoComoAdjacente;
+import Exception.VerticeJaExisteException;
 import Exception.VerticeNaoEncontradoException;
 
 public interface Grafo {
         public void adicionarAresta(Util.Vertice v1, Util.Vertice v2)
-                        throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente;
+                        throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente,
+                        VerticeJaExisteException;
 
         public void removerAresta(Vertice v1, Vertice v2) throws VerticeNaoEncontradoException;
 
