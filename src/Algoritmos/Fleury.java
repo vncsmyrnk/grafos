@@ -15,7 +15,7 @@ import Util.Vertice;
  */
 
 public class Fleury {
-    private LinkedList<Aresta> arestas;
+    private LinkedList<Vertice> caminho;
     private LinkedList<Aresta> arestasPonte;
     private Grafo grafo;
 
@@ -26,19 +26,33 @@ public class Fleury {
         this.arestasPonte = identificador.identificaPontes();
     }
 
-    public LinkedList<Aresta> buscaCaminhoEuleriano() throws VerticeNaoEncontradoException {
-        this.arestas = new LinkedList<>();
+    /**
+     * Utiliza o algoritmo de Fleury para a busca de um caminho euleriano comecando
+     * por cada vertice
+     * 
+     * @return LinkedList<Vertice>
+     * @throws VerticeNaoEncontradoException
+     */
+    public LinkedList<Vertice> buscaCaminhoEuleriano() throws VerticeNaoEncontradoException {
+        this.caminho = new LinkedList<>();
         for (Vertice v : this.grafo.getVertices()) {
             this.buscaCaminhoEuleriano(v);
         }
-        return this.arestas;
+        return this.caminho;
     }
 
+    /**
+     * Percorre cada vertice adjacente a partir de um previamente informado criando
+     * o caminho euleriano
+     * 
+     * @throws VerticeNaoEncontradoException
+     */
     public void buscaCaminhoEuleriano(Vertice v) throws VerticeNaoEncontradoException {
         for (Vertice w : this.grafo.adjacentes(v)) {
             Aresta a = new Aresta(v, w);
             if (!this.arestasPonte.contains(a)) {
-                this.arestas.add(a);
+                this.caminho.add(w);
+                this.grafo.removerAresta(v, w);
                 this.buscaCaminhoEuleriano(w);
                 break;
             }

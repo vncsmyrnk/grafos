@@ -37,7 +37,7 @@ public class FleuryTest {
 
         Fleury f = new Fleury(g, new Tarjan(g));
         LinkedList<Vertice> caminhoEuleriano = new LinkedList<>(
-                Arrays.asList(vA, vB, vC, vD, vE, vF));
+                Arrays.asList(vB, vC, vA, vE, vB, vD, vC, vE, vD, vF, vA));
 
         assertEquals(caminhoEuleriano, f.buscaCaminhoEuleriano());
     }

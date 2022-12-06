@@ -186,7 +186,7 @@ public class ItemGrafo {
      */
     @Override
     public boolean equals(Object o) {
-        Vertice v = (Vertice) o;
+        ItemGrafo v = (ItemGrafo) o;
         if (v == null) {
             return false;
         }
