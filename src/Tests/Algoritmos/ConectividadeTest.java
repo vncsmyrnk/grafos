@@ -3,19 +3,20 @@ package Tests.Algoritmos;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 
 import Algoritmos.Conectividade;
-import ListaAdjacencia.Grafo;
+import Tests.TesteUtil;
 import Util.Vertice;
 
 public class ConectividadeTest {
-    @Test
-    public void testGrafoConexo() throws Exception {
+    @RepeatedTest(2)
+    public void testGrafoConexo(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
         Vertice vB = new Vertice("B");
         Vertice vC = new Vertice("C");
-        Grafo g = new Grafo(vA, vB, vC);
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC);
 
         g.adicionarAresta(vA, vB);
         g.adicionarAresta(vA, vC);
@@ -23,15 +24,16 @@ public class ConectividadeTest {
         assertTrue(Conectividade.ehGrafoConexo(g));
     }
 
-    @Test
-    public void testGrafoConexo2() throws Exception {
+    @RepeatedTest(2)
+    public void testGrafoConexo2(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
         Vertice vB = new Vertice("B");
         Vertice vC = new Vertice("C");
         Vertice vD = new Vertice("D");
         Vertice vE = new Vertice("E");
         Vertice vF = new Vertice("F");
-        Grafo g = new Grafo(vA, vB, vC, vD, vE, vF);
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC,
+                vD, vE, vF);
 
         g.adicionarAresta(vA, vB);
         g.adicionarAresta(vA, vC);
@@ -44,15 +46,16 @@ public class ConectividadeTest {
         assertTrue(Conectividade.ehGrafoConexo(g));
     }
 
-    @Test
-    public void testGrafoConexo3() throws Exception {
+    @RepeatedTest(2)
+    public void testGrafoConexo3(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
         Vertice vB = new Vertice("B");
         Vertice vC = new Vertice("C");
         Vertice vD = new Vertice("D");
         Vertice vE = new Vertice("E");
         Vertice vF = new Vertice("F");
-        Grafo g = new Grafo(vA, vB, vC, vD, vE, vF);
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC,
+                vD, vE, vF);
 
         g.adicionarAresta(vA, vB);
         g.adicionarAresta(vA, vC);
@@ -64,27 +67,28 @@ public class ConectividadeTest {
         assertTrue(Conectividade.ehGrafoConexo(g));
     }
 
-    @Test
-    public void testGrafoNaoConexo() throws Exception {
+    @RepeatedTest(2)
+    public void testGrafoNaoConexo(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
         Vertice vB = new Vertice("B");
         Vertice vC = new Vertice("C");
-        Grafo g = new Grafo(vA, vB, vC);
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC);
 
         g.adicionarAresta(vA, vB);
 
         assertFalse(Conectividade.ehGrafoConexo(g));
     }
 
-    @Test
-    public void testGrafoNaoConexo2() throws Exception {
+    @RepeatedTest(2)
+    public void testGrafoNaoConexo2(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
         Vertice vB = new Vertice("B");
         Vertice vC = new Vertice("C");
         Vertice vD = new Vertice("D");
         Vertice vE = new Vertice("E");
         Vertice vF = new Vertice("F");
-        Grafo g = new Grafo(vA, vB, vC, vD, vE, vF);
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC,
+                vD, vE, vF);
 
         g.adicionarAresta(vA, vB);
         g.adicionarAresta(vA, vC);

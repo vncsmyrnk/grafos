@@ -38,6 +38,6 @@ public class Vertice extends Util.Vertice {
      * @return Util.Vertice
      */
     public Util.Vertice toVerticeOriginal() {
-        return new Util.Vertice(this.getRotulo(), this.getPeso());
+        return (Util.Vertice) this;
     }
 }
