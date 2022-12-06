@@ -8,12 +8,13 @@ import java.util.LinkedList;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 
-import Algoritmos.Pontes;
+import Algoritmos.Tarjan;
 import Tests.TesteUtil;
 import Util.Aresta;
 import Util.Vertice;
 
-public class PontesTest {
+public class TarjanTest {
+
     @RepeatedTest(2)
     public void testGrafoPonteCaso1(RepetitionInfo repetitionInfo) throws Exception {
         Vertice vA = new Vertice("A");
@@ -33,10 +34,10 @@ public class PontesTest {
         g.adicionarAresta(vD, vF);
         g.adicionarAresta(vE, vF);
 
-        Pontes p = new Pontes(g);
+        Tarjan t = new Tarjan(g);
         LinkedList<Aresta> arestaPonte = new LinkedList<>(Arrays.asList(new Aresta(vC, vD)));
 
-        assertEquals(arestaPonte, p.identificaPontes());
+        assertEquals(arestaPonte, t.identificaPontes());
     }
 
     @RepeatedTest(2)
@@ -49,7 +50,8 @@ public class PontesTest {
         Vertice vF = new Vertice("F");
         Vertice vG = new Vertice("G");
         Vertice vH = new Vertice("H");
-        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(), vA, vB, vC,
+        Util.Grafo g = TesteUtil.getInstanciaGrafoPorRepeticaoAtual(repetitionInfo.getCurrentRepetition(),
+                vA, vB, vC,
                 vD, vE, vF, vG, vH);
 
         g.adicionarAresta(vA, vB);
@@ -62,10 +64,10 @@ public class PontesTest {
         g.adicionarAresta(vG, vH);
         g.adicionarAresta(vH, vE);
 
-        Pontes p = new Pontes(g);
-        LinkedList<Aresta> arestaPonte = new LinkedList<>(Arrays.asList(new Aresta(vB, vE), new Aresta(vC, vD)));
+        Tarjan t = new Tarjan(g);
+        LinkedList<Aresta> arestaPonte = new LinkedList<>(Arrays.asList(new Aresta(vC, vD), new Aresta(vB, vE)));
 
-        assertEquals(arestaPonte, p.identificaPontes());
+        assertEquals(arestaPonte, t.identificaPontes());
     }
 
     @RepeatedTest(2)
@@ -91,10 +93,10 @@ public class PontesTest {
         g.adicionarAresta(vG, vH);
         g.adicionarAresta(vH, vE);
 
-        Pontes p = new Pontes(g);
+        Tarjan t = new Tarjan(g);
         LinkedList<Aresta> arestaPonte = new LinkedList<>(Arrays.asList(new Aresta(vC, vD)));
 
-        assertEquals(arestaPonte, p.identificaPontes());
+        assertEquals(arestaPonte, t.identificaPontes());
     }
 
     @RepeatedTest(2)
@@ -109,10 +111,10 @@ public class PontesTest {
         g.adicionarAresta(vA, vC);
         g.adicionarAresta(vC, vB);
 
-        Pontes p = new Pontes(g);
+        Tarjan t = new Tarjan(g);
         LinkedList<Aresta> arestaPonte = new LinkedList<>();
 
-        assertEquals(arestaPonte, p.identificaPontes());
+        assertEquals(arestaPonte, t.identificaPontes());
     }
 
     @RepeatedTest(2)
@@ -137,9 +139,9 @@ public class PontesTest {
         g.adicionarAresta(vG, vH);
         g.adicionarAresta(vH, vE);
 
-        Pontes p = new Pontes(g);
+        Tarjan t = new Tarjan(g);
         LinkedList<Aresta> arestaPonte = new LinkedList<>();
 
-        assertEquals(arestaPonte, p.identificaPontes());
+        assertEquals(arestaPonte, t.identificaPontes());
     }
 }

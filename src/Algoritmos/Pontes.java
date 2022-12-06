@@ -18,11 +18,14 @@ import Util.Aresta;
  */
 
 public class Pontes {
+    private Grafo grafo;
+
+    public Pontes(Grafo g) {
+        this.grafo = g;
+    }
 
     /**
      * Identifica a aresta ponte de um determinado grafo
-     * 
-     * @TODO Por algum motivo eh necessario chamar essa funcao 2x pra funcionar
      * 
      * @param g
      * @return Aresta
@@ -30,24 +33,21 @@ public class Pontes {
      * @throws GrafoNaoPossuiPonteException
      * @throws VerticeJaAdicionadoComoAdjacente
      */
-    public static LinkedList<Aresta> identificaPontesGrafo(Grafo g)
+    public LinkedList<Aresta> identificaPontes()
             throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente,
             VerticeJaExisteException {
         LinkedList<Aresta> arestasPonte = new LinkedList<>();
-        int quantidadeInicialComponentes = Conectividade.quantidadeComponentes(g);
-        LinkedList<Aresta> arestas = g.getArestas();
+        int quantidadeInicialComponentes = Conectividade.quantidadeComponentes(this.grafo);
+        LinkedList<Aresta> arestas = this.grafo.getArestas();
         for (Aresta a : arestas) {
             Vertice v1 = a.getVertice1();
             Vertice v2 = a.getVertice2();
-            g.removerAresta(v1, v2);
-            if (Conectividade.quantidadeComponentes(g) > quantidadeInicialComponentes) {
+            this.grafo.removerAresta(v1, v2);
+            if (Conectividade.quantidadeComponentes(this.grafo) > quantidadeInicialComponentes) {
                 arestasPonte.add(a);
-                // g.adicionarAresta(v1, v2);
-                // return a;
             }
-            g.adicionarAresta(v1, v2);
+            this.grafo.adicionarAresta(v1, v2);
         }
         return arestasPonte;
-        // throw new GrafoNaoPossuiPonteException();
     }
 }

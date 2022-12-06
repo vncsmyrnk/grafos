@@ -9,12 +9,16 @@ public class ItemGrafo {
     private int peso;
     private boolean visitado;
     private boolean descoberto;
+    private int tempoDescoberta;
+    private int low;
 
     public ItemGrafo() {
         this.rotulo = String.valueOf(this.hashCode());
         this.peso = 1;
         this.visitado = false;
         this.descoberto = false;
+        this.tempoDescoberta = 0;
+        this.low = 0;
     }
 
     public ItemGrafo(String rotulo) {
@@ -22,6 +26,8 @@ public class ItemGrafo {
         this.peso = 1;
         this.visitado = false;
         this.descoberto = false;
+        this.tempoDescoberta = 0;
+        this.low = 0;
     }
 
     public ItemGrafo(String rotulo, int peso) {
@@ -29,6 +35,8 @@ public class ItemGrafo {
         this.peso = peso;
         this.visitado = false;
         this.descoberto = false;
+        this.tempoDescoberta = 0;
+        this.low = 0;
     }
 
     /**
@@ -119,6 +127,56 @@ public class ItemGrafo {
      */
     public void desfazDescoberta() {
         this.descoberto = false;
+    }
+
+    /**
+     * Redefine o tempo de desoberta do item
+     */
+    public void redefineTempoDescoberta() {
+        this.tempoDescoberta = 0;
+    }
+
+    /**
+     * Busca o tempo de descoberta do item
+     * 
+     * @return int
+     */
+    public int getTempoDescoberta() {
+        return this.tempoDescoberta;
+    }
+
+    /**
+     * Define o tempo de descoberta do item
+     * 
+     * @param disc
+     */
+    public void setTempoDescoberta(int disc) {
+        this.tempoDescoberta = disc;
+    }
+
+    /**
+     * Redefine a propriedade low do item
+     */
+    public void redefineLow() {
+        this.low = 0;
+    }
+
+    /**
+     * Define a propriedade low do item
+     * 
+     * @param l
+     */
+    public void setLow(int l) {
+        this.low = l;
+    }
+
+    /**
+     * Busca o valor da propriedade low
+     * 
+     * @return int
+     */
+    public int getLow() {
+        return this.low;
     }
 
     /**
