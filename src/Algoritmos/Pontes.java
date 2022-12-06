@@ -30,9 +30,10 @@ public class Pontes {
      * @throws GrafoNaoPossuiPonteException
      * @throws VerticeJaAdicionadoComoAdjacente
      */
-    public static Aresta identificaPonteGrafo(Grafo g)
-            throws VerticeNaoEncontradoException, GrafoNaoPossuiPonteException, VerticeJaAdicionadoComoAdjacente,
+    public static LinkedList<Aresta> identificaPontesGrafo(Grafo g)
+            throws VerticeNaoEncontradoException, VerticeJaAdicionadoComoAdjacente,
             VerticeJaExisteException {
+        LinkedList<Aresta> arestasPonte = new LinkedList<>();
         int quantidadeInicialComponentes = Conectividade.quantidadeComponentes(g);
         LinkedList<Aresta> arestas = g.getArestas();
         for (Aresta a : arestas) {
@@ -40,11 +41,13 @@ public class Pontes {
             Vertice v2 = a.getVertice2();
             g.removerAresta(v1, v2);
             if (Conectividade.quantidadeComponentes(g) > quantidadeInicialComponentes) {
-                g.adicionarAresta(v1, v2);
-                return a;
+                arestasPonte.add(a);
+                // g.adicionarAresta(v1, v2);
+                // return a;
             }
             g.adicionarAresta(v1, v2);
         }
-        throw new GrafoNaoPossuiPonteException();
+        return arestasPonte;
+        // throw new GrafoNaoPossuiPonteException();
     }
 }
