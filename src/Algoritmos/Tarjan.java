@@ -12,12 +12,22 @@ import Util.Vertice;
  * https://en.wikipedia.org/wiki/Bridge_(graph_theory)#Tarjan's_bridge-finding_algorithm
  */
 
-public class Tarjan {
+public class Tarjan implements IdentificadorPontes {
     private LinkedList<Aresta> arestas;
     private Grafo grafo;
     private int tempo;
 
     public Tarjan(Grafo g) {
+        this.grafo = g;
+    }
+
+    public Tarjan() {
+    }
+
+    /**
+     * Define o grafo para a realizacao dos procedimentos
+     */
+    public void setGrafo(Grafo g) {
         this.grafo = g;
     }
 

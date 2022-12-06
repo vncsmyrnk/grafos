@@ -17,10 +17,20 @@ import Util.Aresta;
  * conectados deste
  */
 
-public class Pontes {
+public class Pontes implements IdentificadorPontes {
     private Grafo grafo;
 
     public Pontes(Grafo g) {
+        this.grafo = g;
+    }
+
+    public Pontes() {
+    }
+
+    /**
+     * Define o grafo para a realizacao dos procedimentos
+     */
+    public void setGrafo(Grafo g) {
         this.grafo = g;
     }
 
