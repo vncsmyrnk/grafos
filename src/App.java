@@ -37,6 +37,8 @@ public class App {
 
         System.out.println("Tempo para geração: " + ((System.currentTimeMillis() - mstime)) + " milisegundos");
 
+        mstime = System.currentTimeMillis();
+
         System.out.println(
                 "Encontrando um caminho euleriano seguindo o algoritmo de Fleury utilizando um metodo 'naive'...");
         Fleury f2 = new Fleury(g, new Pontes(g));
