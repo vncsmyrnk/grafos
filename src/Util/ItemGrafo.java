@@ -192,4 +192,14 @@ public class ItemGrafo {
         }
         return this.rotulo.equals(v.getRotulo());
     }
+
+    /**
+     * Sobrescreve a geracao de uma string do objeto
+     * 
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return this.rotulo;
+    }
 }
