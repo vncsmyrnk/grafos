@@ -58,7 +58,9 @@ public class App {
     public static void criaArestasAleatorias(Grafo g) throws Exception {
         Random r = new Random();
         int quantidadeVertices = g.quantidadeVertices();
-        int quantidadeArestasACriar = quantidadeVertices + r.nextInt(quantidadeVertices * 2);
+        // int quantidadeArestasACriar = quantidadeVertices +
+        // r.nextInt(quantidadeVertices * 2);
+        int quantidadeArestasACriar = quantidadeVertices / 2;
         LinkedList<Vertice> vertices = g.getVertices();
         for (int i = 0; i < quantidadeArestasACriar; i++) {
             Vertice v1 = vertices.get(r.nextInt(quantidadeVertices - 1));
